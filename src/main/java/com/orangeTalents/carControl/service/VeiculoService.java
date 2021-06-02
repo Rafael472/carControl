@@ -2,16 +2,13 @@ package com.orangeTalents.carControl.service;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.orangeTalents.carControl.DTO.VeiculoDTO;
-import com.orangeTalents.carControl.exception.AnoNaoEncontradoException;
-import com.orangeTalents.carControl.exception.MarcaNaoEncontradaException;
-import com.orangeTalents.carControl.exception.ModeloNaoEncontradoException;
-import com.orangeTalents.carControl.exception.UsuarioNaoEncontradoException;
+import com.orangeTalents.carControl.exception.BadRequestException;
+import com.orangeTalents.carControl.exception.EntidadeNaoEncontradaException;
 import com.orangeTalents.carControl.model.ApiResponse;
 import com.orangeTalents.carControl.model.Usuario;
 import com.orangeTalents.carControl.model.Veiculo;
@@ -29,42 +26,43 @@ public class VeiculoService {
 	public VeiculoDTO adicionar(Veiculo veiculo, Long id) {
 		//checa se id é de usuário válido
 		//lança exception com status 404 caso usuário não exista
-		Optional<Usuario> usuario = usuarioRepository.findById(id);
-		if(!usuario.isPresent())
-			throw new UsuarioNaoEncontradoException("Usuario id " + id + " não encontrado.");
+		Usuario usuario = usuarioRepository.findById(id)
+				.orElseThrow(() -> new EntidadeNaoEncontradaException("Usuario id " + id + " não encontrado."));
 		
 		//checa se marca existe
+		//lança exception con status 400 caso marca não encontrada
 		List<ApiResponse> marcas = api.getMarcas(); //busca marcas na api fipe
 		ApiResponse marca = new ApiResponse();
 		marca = listContains(veiculo.getMarca(), marcas);
 		if(marca == null)
-			throw new MarcaNaoEncontradaException("Marca " + veiculo.getMarca() + " não encontrada.");
+			throw new BadRequestException("Marca '" + veiculo.getMarca() + "' não encontrada. Insira uma marca válida.");
 		
 		//checa se modelo existe
+		//lança exception con status 400 caso modelo não encontrado
 		ApiResponse modelo = new ApiResponse();
 		List<ApiResponse> modelos = api.getModelos(marca.getCodigo()).getModelos(); //busca modelos na api fipe
 		modelo = listContains(veiculo.getModelo(), modelos);
 		if(modelo == null)
-			throw new ModeloNaoEncontradoException("Modelo " + veiculo.getModelo() + " não encontrado.");
+			throw new BadRequestException("Modelo '" + veiculo.getModelo() + "' não encontrado. Insira um modelo válido.");
 		
 		//checa se ano existe
+		//lança exception con status 400 caso ano não encontrado
 		ApiResponse ano = new ApiResponse();
 		List<ApiResponse> anos = api.getAnos(marca.getCodigo(), modelo.getCodigo()); //busca anos na api fipe
 		ano = listContains(veiculo.getAno(), anos);
 		if(ano == null)
-			throw new AnoNaoEncontradoException("Ano " + veiculo.getAno() + " não encontrado.");
+			throw new BadRequestException("Ano '" + veiculo.getAno() + "' não encontrado. Insira um ano válido.");
 		
-		//prepara objeto veiculo para ser salvo
-		VeiculoDTO dto = api.getVeiculo(marca.getCodigo(), modelo.getCodigo(), ano.getCodigo());
-		veiculo = new Veiculo(dto);
-		veiculo.setIdProprietario(usuario.get());
+		//prepara objeto veiculo para ser salvo no banco de dados
+		VeiculoDTO veiculoDTO = api.getVeiculo(marca.getCodigo(), modelo.getCodigo(), ano.getCodigo());
+		veiculo = new Veiculo(veiculoDTO);
+		veiculo.setIdProprietario(usuario);
 		veiculo = veiculoRepository.save(veiculo);
 		
 		//prepara dto para retorno customizado ao usuario
-		dto.idVeiculo = veiculo.getId();
-		dto.idProprietario = usuario.get().getId();
-		dto = calcularRodizio(dto);
-		return dto;
+		veiculoDTO = new VeiculoDTO(veiculo);
+		veiculoDTO = calcularRodizio(veiculoDTO);
+		return veiculoDTO;
 	}
 	
 	//procura item na lista, caso encontrar retorna o item, senão, retona null

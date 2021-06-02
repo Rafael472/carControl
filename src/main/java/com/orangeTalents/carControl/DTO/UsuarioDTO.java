@@ -14,6 +14,8 @@ public class UsuarioDTO {
 	private Date dataNascimento;
 	private List<VeiculoDTO> veiculos;
 	
+	public UsuarioDTO() {}
+	
 	public UsuarioDTO(Usuario usuario) {
 		this.id = usuario.getId();
 		this.nome = usuario.getNome();
@@ -21,6 +23,7 @@ public class UsuarioDTO {
 		this.cpf = usuario.getCpf();
 		this.dataNascimento = usuario.getDataNascimento();
 	}
+	
 	public Long getId() {
 		return id;
 	}

@@ -29,8 +29,7 @@ public class VeiculoDTO {
 	@Override
 	public String toString() {
 		return "VeiculoDTO [idVeiculo=" + idVeiculo + ", Valor=" + Valor + ", Marca=" + Marca + ", Modelo=" + Modelo
-				+ ", AnoModelo=" + AnoModelo + ", Combustivel=" + Combustivel + ", idProprietario=" + idProprietario
-				+ "]";
+				+ ", AnoModelo=" + AnoModelo + ", Combustivel=" + Combustivel + ", idProprietario=" + idProprietario + "]";
 	}
 	
 }
