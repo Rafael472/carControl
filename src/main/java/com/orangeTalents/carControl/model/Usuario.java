@@ -8,9 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 
 @Entity
 @Table(name="usuario")
@@ -35,11 +39,21 @@ public class Usuario {
 	@Column(name="cpf", nullable = false, unique = true)
 	private String cpf;
 	
-	@NotBlank(message = "Data de Nascimento não deve estar em branco ou nulo.")
+	@NotNull(message = "Data de Nascimento não deve estar em branco ou nulo.")
+	@Temporal(TemporalType.DATE)
 	@Column(name = "data_nascimento", nullable = false)
 	private Date dataNascimento;
-	
+		
 	//getters e setters abaixo
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	
 	public String getNome() {
 		return nome;

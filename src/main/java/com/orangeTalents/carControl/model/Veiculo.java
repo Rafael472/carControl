@@ -1,7 +1,5 @@
 package com.orangeTalents.carControl.model;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.orangeTalents.carControl.DTO.VeiculoDTO;
 
 
 @Entity
@@ -35,16 +35,36 @@ public class Veiculo {
 	@Column(name="ano", nullable = false)
 	private String ano;
 	
-	@NotNull(message = "Valor é obrigatório")
+	@Column(name="combustivel", nullable = false)
+	public String Combustivel;
+	
 	@Column(name = "valor", nullable = false)
-	private BigDecimal valor;
+	private String valor;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="id_usuario")
 	private Usuario idProprietario;
 
-	//getters e setters abaixo
+	Veiculo(){}
 	
+	Veiculo(String marca, String modelo, String ano, String valor){
+		this.marca = marca;
+		this.modelo = modelo;
+		this.ano = ano;
+		this.valor = valor;
+	}
+	
+	public Veiculo(VeiculoDTO dto) {
+		this.marca = dto.Marca;
+		this.modelo = dto.Modelo;
+		this.ano = dto.AnoModelo;
+		this.valor = dto.Valor;
+		this.Combustivel = dto.Combustivel;
+	}
+	
+	//getters e setters abaixo
+
 	public Long getId() {
 		return id;
 	}
@@ -77,11 +97,11 @@ public class Veiculo {
 		this.ano = ano;
 	}
 
-	public BigDecimal getValor() {
+	public String getValor() {
 		return valor;
 	}
 
-	public void setValor(BigDecimal valor) {
+	public void setValor(String valor) {
 		this.valor = valor;
 	}
 
@@ -91,6 +111,20 @@ public class Veiculo {
 
 	public void setIdProprietario(Usuario idProprietario) {
 		this.idProprietario = idProprietario;
+	}
+	
+	public String getCombustivel() {
+		return Combustivel;
+	}
+
+	public void setCombustivel(String combustivel) {
+		Combustivel = combustivel;
+	}
+
+	@Override
+	public String toString() {
+		return "Veiculo [id=" + id + ", marca=" + marca + ", modelo=" + modelo + ", ano=" + ano + ", Combustivel="
+				+ Combustivel + ", valor=" + valor + ", idProprietario=" + idProprietario + "]";
 	}
 
 	@Override
