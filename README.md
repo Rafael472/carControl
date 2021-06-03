@@ -50,4 +50,27 @@ Sumário
   }
   ```
 - Listar Usuário e seus Veículos:\
-  Efetuar GET em ```localhost:8081/usuario/{idUsuario}```.
+  Efetuar GET em ```localhost:8081/usuario/{idUsuario}```.\
+  Retorno:
+  ```
+  {
+    "id": 1,
+    "nome": "Usuario de Exemplo",
+    "email": "exemplo@exemplo.com",
+    "cpf": "00000000000",
+    "dataNascimento": "1999-01-01"
+    "veiculos": [
+        {
+            "idVeiculo": 1,
+            "Valor": "R$ 16.422,00",
+            "Marca": "Fiat",
+            "Modelo": "Palio Weekend Adventure 1.8 8V 103cv 4p",
+            "AnoModelo": "2004",
+            "Combustivel": "Gasolina",
+            "idProprietario": 1,
+            "diaRodizio": "Quarta-feira",
+            "rodizioAtivo": false
+        }
+    ]
+  }
+  ```
