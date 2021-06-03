@@ -50,4 +50,27 @@ Sumário
   }
   ```
 - Listar Usuário e seus Veículos:\
-  Efetuar GET em ```localhost:8081/usuario/{idUsuario}```.
+  Efetuar GET em ```localhost:8081/usuario/{idUsuario}```.\
+  Retorno:
+  ```
+  {
+    "id": 1,
+    "nome": "Rafael da Silva",
+    "email": "rafael._silva@outlook.com.br",
+    "cpf": "47350108826",
+    "dataNascimento": "1999-02-21",
+    "veiculos": [
+        {
+            "idVeiculo": 1,
+            "Valor": "R$ 16.422,00",
+            "Marca": "Fiat",
+            "Modelo": "Palio Weekend Adventure 1.8 8V 103cv 4p",
+            "AnoModelo": "2004",
+            "Combustivel": "Gasolina",
+            "idProprietario": 1,
+            "diaRodizio": "Quarta-feira",
+            "rodizioAtivo": false
+        }
+    ]
+  }
+  ```
