@@ -1,7 +1,11 @@
 package com.orangeTalents.carControl.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,14 +81,15 @@ public class VeiculoService {
 	
 	//calcula rodizio para Objeto VeiculoDTO
 	VeiculoDTO calcularRodizio(VeiculoDTO veiculo) {
-		Calendar c = Calendar.getInstance(); //instancia de calendario
-		String hoje = getDiaDaSemana(c.get(Calendar.DAY_OF_WEEK)); //dia de hoje
-		
+		Date date = new Date();
+		DateFormat formatter = new SimpleDateFormat("EEEE", new Locale("pt", "BR"));
+		String hoje = formatter.format(date); //dia de hoje formato String. Ex: Segunda-feira
+				
 		String ano = veiculo.AnoModelo; //String ano = Ano do veiculo
 		int digito = Integer.parseInt(ano.substring(ano.length() -1)); //int digito = ultimo dígito do ano do veiculo
-		veiculo.diaRodizio = getDiaDaSemana(digito); //seta dia do ridizio do veículo
+		veiculo.diaRodizio = getDiaRodizio(digito); //seta dia do ridizio do veículo
 		
-		//se dia do rodizio = hoje , rodizioAtivo = true
+		//se dia do ridizio = hoje, rodizioAtivo = true
 		if(veiculo.diaRodizio.equals(hoje))
 			veiculo.rodizioAtivo = true;
 		
@@ -101,7 +106,7 @@ public class VeiculoService {
 	}
 	
 	//busca dia da semana correspondente ao digito do ano do veiculo
-	private String getDiaDaSemana(int value) {
+	private String getDiaRodizio(int value) {
 		String day = "";
 	    switch(value){
 	    case 0:
@@ -127,5 +132,5 @@ public class VeiculoService {
 	    }
 	    return day;
 	}
-	
+
 }

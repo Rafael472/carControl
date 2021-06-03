@@ -27,8 +27,8 @@ import com.orangeTalents.carControl.service.VeiculoService;
 public class apiController {
 
 	@Autowired UsuarioService usuarioService;
-	@Autowired UsuarioRepository usuarioRepository;
 	@Autowired VeiculoService veiculoService;
+	@Autowired UsuarioRepository usuarioRepository;
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED) //Status 201 Created

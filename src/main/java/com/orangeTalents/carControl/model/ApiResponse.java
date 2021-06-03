@@ -3,12 +3,12 @@ package com.orangeTalents.carControl.model;
 import java.util.List;
 
 
-
 public class ApiResponse {
 	
 	private String nome;
 	private String codigo;
-	private List<ApiResponse> modelos; //atributo necessário devido a API FIPE listar os modelos através de uma lista modelos.
+	//atributo necessário devido a API FIPE listar os modelos a partir de uma lista modelos.
+	private List<ApiResponse> modelos;
 	
 	public String getNome() {
 		return nome;
