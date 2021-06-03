@@ -55,10 +55,10 @@ Sumário
   ```
   {
     "id": 1,
-    "nome": "Rafael da Silva",
-    "email": "rafael._silva@outlook.com.br",
-    "cpf": "47350108826",
-    "dataNascimento": "1999-02-21",
+    "nome": "Usuario de Exemplo",
+    "email": "exemplo@exemplo.com",
+    "cpf": "00000000000",
+    "dataNascimento": "1999-01-01"
     "veiculos": [
         {
             "idVeiculo": 1,
